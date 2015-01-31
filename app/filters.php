@@ -13,10 +13,11 @@
 
 App::before(function($request)
 {
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-    header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
-    header('Access-Control-Allow-Credentials: true');
+    // header('Access-Control-Allow-Origin: *');
+    // header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    // header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
+    //header('Access-Control-Allow-Credentials: true');
+    //Log::info('test');
 });
 
 
@@ -59,7 +60,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('api', function() {
     // Fetch a user record based on api key
-    $user = User::where('api_key', '=', Input::get('api_key'))->take(1)->get();
+    $user = User::where('key', '=', Input::get('key'))->take(1)->get();
 
     if ($user->count() > 0) {
         Auth::onceUsingId($user[0]->id); // Authorize the user for this one request

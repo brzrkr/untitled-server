@@ -10,7 +10,14 @@ class PostsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$posts = Post::with('user')->get();
+
+        $posts->map(function(&$post) {
+            //$post->like_count = count($post->likes);
+            $post->comment_count = count($post->comments);
+        });
+
+        return $posts;
 	}
 
 	/**
@@ -44,7 +51,9 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$post = Post::findOrFail($id);
+
+        return $post;
 	}
 
 	/**

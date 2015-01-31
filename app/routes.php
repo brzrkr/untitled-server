@@ -16,9 +16,10 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::group(array('prefix' => '/api'), function()
+Route::group(array('prefix' => '/api', ''), function()
 {
     Route::post('login', function() {
+//        return "TEST";
 
         $login = Input::get('username');
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
@@ -28,27 +29,27 @@ Route::group(array('prefix' => '/api'), function()
 
             $key = Uuid::generate(5, $user->name, Uuid::nsDNS);
 
-            $user->key = $key;
+            $user->key = (string)$key;
 
             $user->save();
-
-            $user->$key;
 
             return $user;
 
         } else {
-            return Response::view('errors.404', array(), 404)->header('Content-Type', 'application/json');
+            return Response::view('errors.404', array(), 200)->header('Content-Type', 'application/json');
         }
 
     });
 
-    Route::resource('conversations', 'ConversationsController');
-    Route::resource('conversations/messages', 'MessagesController');
-    //Route::resource('message', 'MessagesController');
-    Route::resource('spots', 'SpotsController');
-    //Route::resource('comment', 'CommentsController');
-    Route::resource('posts', 'PostsController');
-    Route::resource('posts/comments', 'CommentsController');
-    Route::resource('users', 'UsersController');
-    Route::resource('catches', 'CatchesController');
+    Route::group(array('before' => 'api'), function() {
+        Route::resource('conversations', 'ConversationsController');
+        Route::resource('conversations/messages', 'MessagesController');
+        //Route::resource('message', 'MessagesController');
+        Route::resource('spots', 'SpotsController');
+        //Route::resource('comment', 'CommentsController');
+        Route::resource('posts', 'PostsController');
+        Route::resource('posts/comments', 'CommentsController');
+        Route::resource('users', 'UsersController');
+        Route::resource('catches', 'CatchesController');
+    });
 });

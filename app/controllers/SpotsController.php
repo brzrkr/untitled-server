@@ -10,7 +10,9 @@ class SpotsController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		$spots = Spot::get();
+
+        return $spots;
 	}
 
 	/**
@@ -44,7 +46,9 @@ class SpotsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$spot = Spot::findOrFail($id);
+
+        return $spot;
 	}
 
 	/**

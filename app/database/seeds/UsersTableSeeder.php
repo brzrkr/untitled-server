@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('test'),
             'email' => 'nic@kilt.io',
             'bio' => 'Newbie fisher, but I love it.',
+            'avatar' => 'nic.jpg'
         ]);
 
         User::create([
@@ -22,6 +23,7 @@ class UsersTableSeeder extends Seeder
             'username' => 'mpina',
             'password' => Hash::make('test'),
             'email' => 'mauricio@imagineitstudios.com',
+            'avatar' => 'mauricio.jpg'
         ]);
 
     }

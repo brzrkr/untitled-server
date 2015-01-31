@@ -125,6 +125,7 @@ return array(
         'Way\Generators\GeneratorsServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
+        'Barryvdh\Cors\CorsServiceProvider',
 
 	),
 
