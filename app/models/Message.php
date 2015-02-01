@@ -1,5 +1,7 @@
 <?php
 
-class Message extends \Eloquent {
+use \Esensi\Model\SoftModel;
+
+class Message extends SoftModel {
 	protected $fillable = [];
 }

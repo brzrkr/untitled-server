@@ -1,5 +1,7 @@
 <?php
 
-class Spot extends \Eloquent {
+use \Esensi\Model\SoftModel;
+
+class Spot extends SoftModel {
 	protected $fillable = [];
 }

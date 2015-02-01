@@ -1,5 +1,7 @@
 <?php
 
-class Catch extends \Eloquent {
+use \Esensi\Model\SoftModel;
+
+class Catch extends SoftModel {
 	protected $fillable = [];
 }

@@ -20,23 +20,38 @@ Route::group(array('prefix' => '/api', ''), function()
 {
     Route::post('login', function() {
 //        return "TEST";
-
+        Log::info(Input::all());
         $login = Input::get('username');
         $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $user = User::where('username', '=', $login)->first();
+        Log::info($user);
 
         if (Auth::attempt(array($field => $login, 'password' => Input::get('password')))) {
             $user = Auth::user();
 
-            $key = Uuid::generate(5, $user->name, Uuid::nsDNS);
+            $key = Uuid::generate(5, $user->username, Uuid::nsDNS);
 
             $user->key = (string)$key;
 
-            $user->save();
-
-            return $user;
+            if($user->save()) {
+                return Response::json([
+                    'success' => true,
+                    'user' => $user,
+                    'message' => 'Successfully logged in!'
+                ]);
+            } else {
+                return Response::json([
+                    'success' => false,
+                    'message' => 'Unable to generate session key.'
+                ]);
+            }
 
         } else {
-            return Response::view('errors.404', array(), 200)->header('Content-Type', 'application/json');
+            return Response::json([
+                'success' => false,
+                'message' => 'Invalid username or password.'
+            ]);
         }
 
     });

@@ -1,6 +1,8 @@
 <?php
 
-class Post extends \Eloquent {
+use \Esensi\Model\SoftModel;
+
+class Post extends SoftModel {
 	protected $fillable = [];
 
     static public $types = ['text', 'photo', 'invite', 'catch'];
@@ -13,7 +15,7 @@ class Post extends \Eloquent {
         return $this->belongsTo('Spot');
     }
 
-    public function comment() {
+    public function comments() {
         return $this->hasMany('Comment');
     }
 }

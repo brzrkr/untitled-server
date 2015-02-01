@@ -21,17 +21,6 @@ class PostsController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 * GET /posts/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 * POST /posts
 	 *
@@ -51,21 +40,12 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$post = Post::findOrFail($id);
+		$post = Post::with('user', 'comments', 'comments.user')->findOrFail($id);
+
+
+        $post->comment_count = count($post->comments);
 
         return $post;
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /posts/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
 	}
 
 	/**

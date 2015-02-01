@@ -16,17 +16,6 @@ class SpotsController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 * GET /spots/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 * POST /spots
 	 *
@@ -49,18 +38,6 @@ class SpotsController extends \BaseController {
 		$spot = Spot::findOrFail($id);
 
         return $spot;
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /spots/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
 	}
 
 	/**

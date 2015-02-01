@@ -14,17 +14,6 @@ class UsersController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 * GET /users/create
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 * POST /users
 	 *
@@ -32,7 +21,25 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+	    $user = new User;
+
+        $user->fill(Input::get('data'));
+        $user->password = Hash::make(Input::get('data.password'));
+
+        Log::info($user);
+
+        if($user->save()) {
+            return Response::json([
+                'success' => true,
+                'message' => 'User account created!'
+            ]);
+        } else {
+            return Response::json([
+                'success' => false,
+                'errors' => join($user->getErrors()->all(':message<br/>')),
+                'message' => 'Unable to Create Account'
+            ]);
+        }
 	}
 
 	/**
@@ -43,18 +50,6 @@ class UsersController extends \BaseController {
 	 * @return Response
 	 */
 	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /users/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
 	{
 		//
 	}

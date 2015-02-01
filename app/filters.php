@@ -65,7 +65,10 @@ Route::filter('api', function() {
     if ($user->count() > 0) {
         Auth::onceUsingId($user[0]->id); // Authorize the user for this one request
     } else {
-        return Response::view('errors.404', array(), 404)->header('Content-Type', 'application/json');
+        return Response::json([
+            'success' => false,
+            'message' => 'Must be authenticated to access this resource.'
+        ], 401);
     }
 });
 
