@@ -12,12 +12,19 @@ class PostsController extends \BaseController {
 	{
 		$posts = Post::with('user')->get();
 
+        if(is_null($posts) || $posts->isEmpty()) {
+            return Response::json(['success' => false]);
+        }
+
         $posts->map(function(&$post) {
             //$post->like_count = count($post->likes);
             $post->comment_count = count($post->comments);
         });
 
-        return $posts;
+        return Response::json([
+            'success' => true,
+            'data' => $posts
+        ]);
 	}
 
 	/**
@@ -40,12 +47,18 @@ class PostsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$post = Post::with('user', 'comments', 'comments.user')->findOrFail($id);
+		$post = Post::with('user', 'comments', 'comments.user')->find($id);
 
+        if(is_null($post) || !$post) {
+            return Response::json(['success' => false]);
+        }
 
         $post->comment_count = count($post->comments);
 
-        return $post;
+        return Response::json([
+            'success' => true,
+            'data' => $post
+        ]);
 	}
 
 	/**

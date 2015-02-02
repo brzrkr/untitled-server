@@ -60,10 +60,10 @@ Route::filter('auth.basic', function()
 
 Route::filter('api', function() {
     // Fetch a user record based on api key
-    $user = User::where('key', '=', Input::get('key'))->take(1)->get();
+    $user = User::where('key', '=', Input::get('key'))->first();
 
-    if ($user->count() > 0) {
-        Auth::onceUsingId($user[0]->id); // Authorize the user for this one request
+    if (!is_null($user) && $user) {
+        Auth::setUser($user); // Authorize the user for this one request
     } else {
         return Response::json([
             'success' => false,

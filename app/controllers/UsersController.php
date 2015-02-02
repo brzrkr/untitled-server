@@ -26,8 +26,6 @@ class UsersController extends \BaseController {
         $user->fill(Input::get('data'));
         $user->password = Hash::make(Input::get('data.password'));
 
-        Log::info($user);
-
         if($user->save()) {
             return Response::json([
                 'success' => true,

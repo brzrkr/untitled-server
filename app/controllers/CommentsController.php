@@ -8,9 +8,18 @@ class CommentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($post_id)
 	{
-		//
+		$comments = Comment::where('post_id', '=', $post_id)->get();
+
+        if(is_null($comments) || $comments->isEmpty()) {
+            return Response::json(['success' => false], 404);
+        }
+
+        return Response::json([
+            'success' => true,
+            'data' => $comments
+        ]);
 	}
 
 	/**
@@ -19,9 +28,30 @@ class CommentsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($post_id)
 	{
-		//
+
+		$comment = new Comment;
+
+        $comment->fill(Input::all());
+        $comment->post_id = $post_id;
+        $comment->user_id = Auth::user()->id;
+
+        if($comment->save()) {
+            $comment->load('user');
+
+            return Response::json([
+                'success' => true,
+                'message' => 'Comment added to post!',
+                'data' => $comment
+            ]);
+        } else {
+            return Response::json([
+                'success' => false,
+                'errors' => join($comment->getErrors()->all(':message<br/>')),
+                'message' => 'Unable to Create Comment'
+            ]);
+        }
 	}
 
 	/**

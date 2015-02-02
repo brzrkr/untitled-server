@@ -27,7 +27,7 @@ Route::group(array('prefix' => '/api', ''), function()
         $user = User::where('username', '=', $login)->first();
         Log::info($user);
 
-        if (Auth::attempt(array($field => $login, 'password' => Input::get('password')))) {
+        if (Auth::once(array($field => $login, 'password' => Input::get('password')))) {
             $user = Auth::user();
 
             $key = Uuid::generate(5, $user->username, Uuid::nsDNS);
@@ -37,7 +37,7 @@ Route::group(array('prefix' => '/api', ''), function()
             if($user->save()) {
                 return Response::json([
                     'success' => true,
-                    'user' => $user,
+                    'data' => $user,
                     'message' => 'Successfully logged in!'
                 ]);
             } else {
@@ -58,12 +58,12 @@ Route::group(array('prefix' => '/api', ''), function()
 
     Route::group(array('before' => 'api'), function() {
         Route::resource('conversations', 'ConversationsController');
-        Route::resource('conversations/messages', 'MessagesController');
+        Route::resource('conversations.messages', 'MessagesController');
         //Route::resource('message', 'MessagesController');
         Route::resource('spots', 'SpotsController');
         //Route::resource('comment', 'CommentsController');
         Route::resource('posts', 'PostsController');
-        Route::resource('posts/comments', 'CommentsController');
+        Route::resource('posts.comments', 'CommentsController');
         Route::resource('users', 'UsersController');
         Route::resource('catches', 'CatchesController');
     });
